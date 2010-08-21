@@ -39,8 +39,10 @@ var LS = {
         event.target.style.color = playerTurn["color"];
         LS.checkWinConditions(playerTurn);
         LS.turn = LS.toggleTurn();
+        return true;
       }
     };
+    return false;
   },
   
   toggleTurn: function() {
@@ -54,26 +56,29 @@ var LS = {
     for (var i = divs.length - 1; i >= 0; i--){
       // If DIV has innerText of playerTurn["piece"] then
       if (divs[i].innerText === playerTurn["piece"] + "\n" || divs[i].innerText === playerTurn["piece"]) {
-        // Push the DIV id (as an interger) to moves array
+        // Push the DIV id (as an integer) to moves array
         moves.push(parseInt(divs[i].id,10));
         if (moves.length > 3) {
+          // Shift the first integer so we can compare arrays of same length
           moves.shift();
-        }
+        };
       }
     };
-    console.log(moves);
     // If moves has a length of 3, then check against winConditions
     if (moves.length == 3) {
       for (var j = LS.winConditions.length - 1; j >= 0; j--){
         // If moves contain any of winConditions then
         if (moves.compare(LS.winConditions[j])) {
-          // append "WIN" DIV and remove the event listener for the click handler
+          // Remove the event listener for the click handler
           console.log("Win!");
           window.removeEventListener('click', LS.clickHandler, false);
           // Color the winning DIVs
           LS.colorWinDivs(moves);
+          // Add the win div
           LS.addWinDiv();
+          // Add the replay div
           LS.addReplayDiv();
+          return true;
         }
       };
     }
