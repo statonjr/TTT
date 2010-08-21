@@ -1,6 +1,5 @@
 var LS = {
   
-  gameStatus: 0,
   players: [],
   turn: null,
   winConditions: [
@@ -70,28 +69,38 @@ var LS = {
         if (moves.compare(LS.winConditions[j])) {
           // append "WIN" DIV and remove the event listener for the click handler
           console.log("Win!");
-          var winDiv = document.createElement("div");
-          winDiv.setAttribute("id", "win");
-          document.getElementsByTagName('body')[0].appendChild(winDiv);
-          var winPara = document.createElement("p");
-          winPara.setAttribute("id", "winPara");
-          document.getElementById("win").appendChild(winPara);
-          var replayPara = document.createElement("p");
-          replayPara.setAttribute("id", "replay");
-          var replayLink = document.createElement("a");
-          replayLink.setAttribute("href", "ttt.html");
-          replayLink.setAttribute("id", "replayLink");
-          var winText = document.createTextNode("Winner!");
-          var replayText = document.createTextNode("Replay");
-          document.getElementById('winPara').appendChild(winText);
-          document.getElementById('win').appendChild(replayPara);
-          document.getElementById('replay').appendChild(replayLink);
-          document.getElementById('replayLink').appendChild(replayText);
           window.removeEventListener('click', LS.clickHandler, false);
+          LS.addWinDiv();
+          LS.colorWinDivs();
         }
       };
     }
     return false;
+  },
+  
+  colorWinDivs: function() {
+    return true;
+  },
+  
+  addWinDiv: function() {
+    var winDiv = document.createElement("div");
+    winDiv.setAttribute("id", "win");
+    document.getElementsByTagName('body')[0].appendChild(winDiv);
+    var winPara = document.createElement("p");
+    winPara.setAttribute("id", "winPara");
+    document.getElementById("win").appendChild(winPara);
+    var replayPara = document.createElement("p");
+    replayPara.setAttribute("id", "replay");
+    var replayLink = document.createElement("a");
+    replayLink.setAttribute("href", "ttt.html");
+    replayLink.setAttribute("id", "replayLink");
+    var winText = document.createTextNode("Winner!");
+    var replayText = document.createTextNode("Replay");
+    document.getElementById('winPara').appendChild(winText);
+    document.getElementById('win').appendChild(replayPara);
+    document.getElementById('replay').appendChild(replayLink);
+    document.getElementById('replayLink').appendChild(replayText);
+    return true;
   },
   
   load: function() {
