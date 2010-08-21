@@ -71,14 +71,18 @@ var LS = {
           console.log("Win!");
           window.removeEventListener('click', LS.clickHandler, false);
           LS.addWinDiv();
-          LS.colorWinDivs();
+          LS.colorWinDivs(moves);
         }
       };
     }
     return false;
   },
   
-  colorWinDivs: function() {
+  colorWinDivs: function(winDivs) {
+    var divs = document.getElementsByTagName('div');
+    for (var i = winDivs.length - 1; i >= 0; i--){
+      divs[winDivs[i]].style.background = "yellow";
+    };
     return true;
   },
   
