@@ -25,9 +25,9 @@ div p {
   margin-right:auto;
 }
 
-#win {
+#win, #replay {
   width: 20em;
-  height: 5em;
+  height: 3em;
   margin-left:auto;
   margin-right:auto;
 }
@@ -37,7 +37,7 @@ div p {
   color: green;
 }
 
-#replay {
+#replayPara {
   font-size: 0.8em !important;
   color: black !important;
 }

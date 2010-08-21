@@ -70,8 +70,10 @@ var LS = {
           // append "WIN" DIV and remove the event listener for the click handler
           console.log("Win!");
           window.removeEventListener('click', LS.clickHandler, false);
-          LS.addWinDiv();
+          // Color the winning DIVs
           LS.colorWinDivs(moves);
+          LS.addWinDiv();
+          LS.addReplayDiv();
         }
       };
     }
@@ -93,16 +95,23 @@ var LS = {
     var winPara = document.createElement("p");
     winPara.setAttribute("id", "winPara");
     document.getElementById("win").appendChild(winPara);
+    var winText = document.createTextNode("Winner!");
+    document.getElementById('winPara').appendChild(winText);
+    return true;
+  },
+  
+  addReplayDiv: function() {
+    var replayDiv = document.createElement("div");
+    replayDiv.setAttribute("id", "replay");
+    document.getElementsByTagName('body')[0].appendChild(replayDiv);
     var replayPara = document.createElement("p");
-    replayPara.setAttribute("id", "replay");
+    replayPara.setAttribute("id", "replayPara");
+    document.getElementById("replay").appendChild(replayPara);
     var replayLink = document.createElement("a");
     replayLink.setAttribute("href", "ttt.html");
     replayLink.setAttribute("id", "replayLink");
-    var winText = document.createTextNode("Winner!");
-    var replayText = document.createTextNode("Replay");
-    document.getElementById('winPara').appendChild(winText);
-    document.getElementById('win').appendChild(replayPara);
-    document.getElementById('replay').appendChild(replayLink);
+    document.getElementById('replayPara').appendChild(replayLink);
+    var replayText = document.createTextNode("Click to replay");
     document.getElementById('replayLink').appendChild(replayText);
     return true;
   },
