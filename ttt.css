@@ -1,0 +1,70 @@
+body {
+  margin, padding:0;
+  font-family: "HelveticaNeue", "Helvetica", sans-serif;
+}
+
+div {
+  width: 6em;
+  height: 6em;
+}
+
+div p {
+  text-align: center;
+  font-weight: bold;
+  width: inherit;
+  margin-bottom: 10%;
+  margin-top: 10%;
+  font-size: 4em;
+}
+
+#wrapper {
+  margin-top: 4em;
+  width: 20em;
+  height: 20em;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#win {
+  width: 20em;
+  height: 5em;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#win p {
+  font-size: 2em;
+  color: green;
+}
+
+#replay {
+  font-size: 0.8em !important;
+  color: black !important;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.top {
+  border-bottom: 0.75em solid black;
+  float:left;
+}
+
+.middle {
+  float:left;
+}
+
+.bottom {
+  float:left;
+  border-top: 0.75em solid black;
+}
+
+.left {
+  border-right: 0.75em solid black;
+}
+
+.right {
+  border-left: 0.75em solid black;
+}
