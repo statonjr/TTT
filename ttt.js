@@ -79,7 +79,7 @@ var LS = {
           var replayPara = document.createElement("p");
           replayPara.setAttribute("id", "replay");
           var replayLink = document.createElement("a");
-          replayLink.setAttribute("href", "tic-tac-toe.html");
+          replayLink.setAttribute("href", "ttt.html");
           replayLink.setAttribute("id", "replayLink");
           var winText = document.createTextNode("Winner!");
           var replayText = document.createTextNode("Replay");
