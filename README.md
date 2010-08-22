@@ -4,7 +4,6 @@ A simple tic-tac-toe game that I wrote at JFK airport after getting asked about 
 
 This game is built with JavaScript, HTML5, and CSS3.
 
-# TODO
+Thanks to my son, Alexander, for helping me find bugs.
 
-* Add replay link on tie game
-* Change background color of board to grey on tie game.
+## TODO
