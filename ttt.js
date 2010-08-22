@@ -37,7 +37,7 @@ var LS = {
         var playerTurn = LS.turn;
         event.target.innerHTML = "<p>" + playerTurn["piece"] + "</p>";
         event.target.style.color = playerTurn["color"];
-        LS.checkWinConditions(playerTurn);
+        LS.checkGameConditions(playerTurn);
         LS.turn = LS.toggleTurn();
         return true;
       }
@@ -49,39 +49,27 @@ var LS = {
     return LS.turn === LS.players[0] ? LS.players[1] : LS.players[0];
   },
   
-  checkWinConditions: function(playerTurn) {
-    var moves = [];
+  checkGameConditions: function(playerTurn) {
     // Capture all the DIVs
     var divs = document.getElementsByTagName('div');
-    for (var i = divs.length - 1; i >= 0; i--){
-      // If DIV has innerText of playerTurn["piece"] then
-      if (divs[i].innerText === playerTurn["piece"] + "\n" || divs[i].innerText === playerTurn["piece"]) {
-        // Push the DIV id (as an integer) to moves array
-        moves.push(parseInt(divs[i].id,10));
-        if (moves.length > 3) {
-          // Shift the first integer so we can compare arrays of same length
-          moves.shift();
-        };
+    for (var i = LS.winConditions.length - 1; i >= 0; i--){
+      if (divs[LS.winConditions[i][0]].innerText.chomp() === playerTurn["piece"] && divs[LS.winConditions[i][1]].innerText.chomp() === playerTurn["piece"] && divs[LS.winConditions[i][2]].innerText.chomp() === playerTurn["piece"]) {
+        // Remove the event listener
+        window.removeEventListener('click', LS.clickHandler, false);
+        // These are the winning DIVs
+        var winDivs = [LS.winConditions[i][0], LS.winConditions[i][1], LS.winConditions[i][2]];
+        // Color 'em
+        LS.colorWinDivs(winDivs);
+        // Add some text for the winner
+        LS.addResultDiv("Winner!");
+        // Add text to replay game
+        LS.addReplayDiv();
+      } else if (divs[0].innerText.length === 17) {
+        LS.colorTieDivs();
+        LS.addResultDiv("Tie.");
+        LS.addReplayDiv();
       }
     };
-    // If moves has a length of 3, then check against winConditions
-    if (moves.length == 3) {
-      for (var j = LS.winConditions.length - 1; j >= 0; j--){
-        // If moves contain any of winConditions then
-        if (moves.compare(LS.winConditions[j])) {
-          // Remove the event listener for the click handler
-          console.log("Win!");
-          window.removeEventListener('click', LS.clickHandler, false);
-          // Color the winning DIVs
-          LS.colorWinDivs(moves);
-          // Add the win div
-          LS.addWinDiv();
-          // Add the replay div
-          LS.addReplayDiv();
-          return true;
-        }
-      };
-    }
     return false;
   },
   
@@ -93,14 +81,22 @@ var LS = {
     return true;
   },
   
-  addWinDiv: function() {
+  colorTieDivs: function() {
+    var divs = document.getElementsByTagName('div');
+    for (var i = divs.length - 1; i >= 1; i--){
+      divs[i].style.background = "#999999";
+    };
+    return true;
+  },
+  
+  addResultDiv: function(s) {
     var winDiv = document.createElement("div");
     winDiv.setAttribute("id", "win");
     document.getElementsByTagName('body')[0].appendChild(winDiv);
     var winPara = document.createElement("p");
     winPara.setAttribute("id", "winPara");
     document.getElementById("win").appendChild(winPara);
-    var winText = document.createTextNode("Winner!");
+    var winText = document.createTextNode(s);
     document.getElementById('winPara').appendChild(winText);
     return true;
   },
@@ -126,15 +122,8 @@ var LS = {
   }
 };
 
-Array.prototype.compare = function(testArr) {
-    if (this.length != testArr.length) return false;
-    for (var i = 0; i < testArr.length; i++) {
-        if (this[i].compare) { 
-            if (!this[i].compare(testArr[i])) return false;
-        }
-        if (this[i] !== testArr[i]) return false;
-    }
-    return true;
+String.prototype.chomp = function() {
+  return this.replace(/(\n|\r)+$/, '');
 };
 
 window.addEventListener('load', LS.load, false);
