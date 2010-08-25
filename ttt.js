@@ -53,7 +53,7 @@ var LS = {
     // Capture all the DIVs
     var divs = document.getElementsByTagName('div');
     for (var i = LS.winConditions.length - 1; i >= 0; i--){
-      if (divs[LS.winConditions[i][0]].innerText.chomp() === playerTurn["piece"] && divs[LS.winConditions[i][1]].innerText.chomp() === playerTurn["piece"] && divs[LS.winConditions[i][2]].innerText.chomp() === playerTurn["piece"]) {
+      if (divs[LS.winConditions[i][0]].textContent.chomp() === playerTurn["piece"] && divs[LS.winConditions[i][1]].textContent.chomp() === playerTurn["piece"] && divs[LS.winConditions[i][2]].textContent.chomp() === playerTurn["piece"]) {
         // Remove the event listener
         window.removeEventListener('click', LS.clickHandler, false);
         // These are the winning DIVs
@@ -64,10 +64,12 @@ var LS = {
         LS.addResultDiv("Winner!");
         // Add text to replay game
         LS.addReplayDiv();
-      } else if (divs[0].innerText.length === 17) {
+        return true;
+      } else if (divs[0].textContent.length === 77) {
         LS.colorTieDivs();
         LS.addResultDiv("Tie.");
         LS.addReplayDiv();
+        return true;
       }
     };
     return false;
@@ -82,8 +84,8 @@ var LS = {
   },
   
   colorTieDivs: function() {
-    var divs = document.getElementsByTagName('div');
-    for (var i = divs.length - 1; i >= 1; i--){
+    var divs = document.getElementsByClassName('board');
+    for (var i = divs.length - 1; i >= 0; i--){
       divs[i].style.background = "#999999";
     };
     return true;
