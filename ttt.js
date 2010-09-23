@@ -16,20 +16,35 @@ var LS = {
   setup: function() {
     LS.players = [
       {
-        "mame" : "Player 1",
+        "name" : "Player 1",
         "piece" : "X",
-        "color" : "#FF0000"
+        "color" : "#FF0000",
+        "score" : 0
       },
       {
         "name" : "Player 2",
         "piece" : "O",
-        "color" : "#0000FF"
+        "color" : "#0000FF",
+        "score" : 0
       }
     ];
     LS.turn = LS.players[0];
+    
+    var player1Name = document.getElementsByClassName("player1name")[0];
+    player1Name.textContent = LS.players[0].name;
+    
+    var player2Name = document.getElementsByClassName("player2name")[0];
+    player2Name.textContent = LS.players[1].name;
+    
+    var player1Div = document.getElementsByClassName("player1score")[0];
+    player1Div.textContent = LS.players[0].score;
+    
+    var player2Div = document.getElementsByClassName("player2score")[0];
+    player2Div.textContent = LS.players[1].score;
   },
   
   clickHandler: function(event) {
+    console.log(event);
     if (event.target.nodeName === 'DIV') {
       if (event.target.innerHTML === "X" || event.target.innerHTML === "O") {
         return false;
@@ -50,25 +65,30 @@ var LS = {
   },
   
   checkGameConditions: function(playerTurn) {
-    // Capture all the DIVs
-    var divs = document.getElementsByTagName('div');
+    // Capture all the DIVs of the board
+    var divs = document.getElementsByClassName('board');
     for (var i = LS.winConditions.length - 1; i >= 0; i--){
-      if (divs[LS.winConditions[i][0]].textContent.chomp() === playerTurn["piece"] && divs[LS.winConditions[i][1]].textContent.chomp() === playerTurn["piece"] && divs[LS.winConditions[i][2]].textContent.chomp() === playerTurn["piece"]) {
+      if (divs[LS.winConditions[i][0]-1].textContent.chomp() === playerTurn["piece"] && divs[LS.winConditions[i][1]-1].textContent.chomp() === playerTurn["piece"] && divs[LS.winConditions[i][2]-1].textContent.chomp() === playerTurn["piece"]) {
         // Remove the event listener
         window.removeEventListener('click', LS.clickHandler, false);
         // These are the winning DIVs
         var winDivs = [LS.winConditions[i][0], LS.winConditions[i][1], LS.winConditions[i][2]];
         // Color 'em
+        console.log("Color win divs: " + winDivs);
         LS.colorWinDivs(winDivs);
         // Add some text for the winner
-        LS.addResultDiv("Winner!");
+        LS.showResultDiv("Winner!");
         // Add text to replay game
-        LS.addReplayDiv();
+        LS.showReplayDiv();
+        // Increase player's score
+        playerTurn.score += 1;
+        // Update scoreboard
+        LS.updateScore(playerTurn);
         return true;
       } else if (divs[0].textContent.length === 77) {
         LS.colorTieDivs();
-        LS.addResultDiv("Tie.");
-        LS.addReplayDiv();
+        LS.showResultDiv("Tie.");
+        LS.showReplayDiv();
         return true;
       }
     };
@@ -76,9 +96,9 @@ var LS = {
   },
   
   colorWinDivs: function(winDivs) {
-    var divs = document.getElementsByTagName('div');
+    var divs = document.getElementsByClassName('board');
     for (var i = winDivs.length - 1; i >= 0; i--){
-      divs[winDivs[i]].style.background = "yellow";
+      divs[winDivs[i]-1].style.background = "yellow";
     };
     return true;
   },
@@ -86,36 +106,47 @@ var LS = {
   colorTieDivs: function() {
     var divs = document.getElementsByClassName('board');
     for (var i = divs.length - 1; i >= 0; i--){
-      divs[i].style.background = "#999999";
+      divs[i-1].style.background = "#999999";
     };
     return true;
   },
   
-  addResultDiv: function(s) {
-    var winDiv = document.createElement("div");
-    winDiv.setAttribute("id", "win");
-    document.getElementsByTagName('body')[0].appendChild(winDiv);
-    var winPara = document.createElement("p");
-    winPara.setAttribute("id", "winPara");
-    document.getElementById("win").appendChild(winPara);
-    var winText = document.createTextNode(s);
-    document.getElementById('winPara').appendChild(winText);
+  showResultDiv: function(s) {
+    var winDiv = document.getElementById("win");
+    winDiv.removeAttribute("style");
+    var winPara = document.getElementById("winPara");
+    winPara.textContent = s;
     return true;
   },
   
-  addReplayDiv: function() {
-    var replayDiv = document.createElement("div");
-    replayDiv.setAttribute("id", "replay");
-    document.getElementsByTagName('body')[0].appendChild(replayDiv);
-    var replayPara = document.createElement("p");
-    replayPara.setAttribute("id", "replayPara");
-    document.getElementById("replay").appendChild(replayPara);
-    var replayLink = document.createElement("a");
-    replayLink.setAttribute("href", "ttt.html");
-    replayLink.setAttribute("id", "replayLink");
-    document.getElementById('replayPara').appendChild(replayLink);
-    var replayText = document.createTextNode("Click to replay");
-    document.getElementById('replayLink').appendChild(replayText);
+  showReplayDiv: function() {
+    var replayDiv = document.getElementById("replay");
+    replayDiv.removeAttribute("style");
+    return true;
+  },
+  
+  updateScore: function(player) {
+    if (player.name === "Player 1") {
+      var player1Div = document.getElementsByClassName("player1score")[0];
+      player1Div.textContent = player.score;
+    } else {
+      var player2Div = document.getElementsByClassName("player2score")[0];
+      player2Div.textContent = player.score;
+    }
+  },
+  
+  clearBoard: function() {
+    console.log("Clear!");
+    var divs = document.getElementsByClassName('board');
+    for (var i = divs.length - 1; i >= 0; i--){
+      divs[i].textContent = "";
+      divs[i].style.background = "white";
+    };
+    var winDiv = document.getElementById("win");
+    winDiv.setAttribute("style", "display:none");
+    var replayDiv = document.getElementById("replay");
+    replayDiv.setAttribute("style", "display:none");
+    window.addEventListener('click', LS.clickHandler, false);
     return true;
   },
   
@@ -130,3 +161,5 @@ String.prototype.chomp = function() {
 
 window.addEventListener('load', LS.load, false);
 window.addEventListener('click', LS.clickHandler, false);
+var replayLink = document.getElementById("replayLink");
+replayLink.addEventListener('click', LS.clearBoard, false);

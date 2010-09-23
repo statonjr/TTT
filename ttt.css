@@ -32,6 +32,26 @@ div p {
   margin-right:auto;
 }
 
+#scoreboard {
+  width: 20em;
+  height: 4em;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#player1, #player2 {
+  width: 50%;
+  float: left;
+}
+
+#player1 p, #player2 p {
+  font-size: 1.5em;
+}
+
+span.player1score, span.player2score {
+  color: green;
+}
+
 #win p {
   font-size: 2em;
   color: green;

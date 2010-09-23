@@ -2,10 +2,19 @@
 <html>
   <head>
     <title>Tic Tac Toe</title>
-    <script src="ttt.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="ttt.css" type="text/css" media="screen" title="Main" charset="utf-8">
   </head>
   <body>
+    <div id="scoreboard">
+      <div id="player1">
+        <p><span class="player1name"></span><br>
+        <span class="player1score"></span></p>
+      </div>
+      <div id="player2">
+        <p><span class="player2name"></span><br>
+        <span class="player2score"></span></p>
+      </div>
+    </div>
     <div id="wrapper">
       <div id="1" class="board left top"></div>
       <div id="2" class="board center top"></div>
@@ -17,5 +26,14 @@
       <div id="8" class="board center bottom"></div>
       <div id="9" class="board right bottom"></div>
     </div>
+    <div id="win" style="display:none">
+      <p id="winPara"></p>
+    </div>
+    <div id="replay" style="display:none">
+      <p id="replayPara">
+        <a id="replayLink">Replay</a>
+      </p>
+    </div>
   </body>
+  <script src="ttt.js" type="text/javascript" charset="utf-8"></script>
 </html>
