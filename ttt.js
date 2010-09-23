@@ -44,7 +44,6 @@ var LS = {
   },
   
   clickHandler: function(event) {
-    console.log(event);
     if (event.target.nodeName === 'DIV') {
       if (event.target.innerHTML === "X" || event.target.innerHTML === "O") {
         return false;
@@ -74,7 +73,6 @@ var LS = {
         // These are the winning DIVs
         var winDivs = [LS.winConditions[i][0], LS.winConditions[i][1], LS.winConditions[i][2]];
         // Color 'em
-        console.log("Color win divs: " + winDivs);
         LS.colorWinDivs(winDivs);
         // Add some text for the winner
         LS.showResultDiv("Winner!");
@@ -85,7 +83,7 @@ var LS = {
         // Update scoreboard
         LS.updateScore(playerTurn);
         return true;
-      } else if (divs[0].textContent.length === 77) {
+      } else if (LS.isTieGame()) {
         LS.colorTieDivs();
         LS.showResultDiv("Tie.");
         LS.showReplayDiv();
@@ -93,6 +91,17 @@ var LS = {
       }
     };
     return false;
+  },
+  
+  isTieGame: function() {
+    var divs = document.getElementsByClassName('board');
+    for (var i = divs.length - 1; i >= 0; i--){
+      console.log(divs[i]);
+      if (divs[i].textContent === "") {
+        return false;
+      }
+    };
+    return true;
   },
   
   colorWinDivs: function(winDivs) {
@@ -106,7 +115,7 @@ var LS = {
   colorTieDivs: function() {
     var divs = document.getElementsByClassName('board');
     for (var i = divs.length - 1; i >= 0; i--){
-      divs[i-1].style.background = "#999999";
+      divs[i].style.background = "#999999";
     };
     return true;
   },
